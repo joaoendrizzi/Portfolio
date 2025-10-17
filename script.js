@@ -1,9 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Efeito de sombra no header ao rolar a página
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const body = document.body;
+
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('is-active');
+        navToggle.classList.toggle('is-active');
+        body.classList.toggle('body-no-scroll');
+    });
+
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
-        // No mobile, o header já tem sombra, então essa lógica é mais para o desktop
+
         if (window.innerWidth > 768) { 
             if (window.scrollY > 50) {
                 header.style.background = 'rgba(255, 255, 255, 0.98)';
@@ -15,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Intersection Observer para animações de scroll
     const animationOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -24,15 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const animationObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const el = entry.target;
-                el.classList.add('is-visible');
-                observer.unobserve(el);
+                const element = entry.target;
+                element.classList.add('is-visible');
+                observer.unobserve(element);
             }
         });
     }, animationOptions);
 
     const animatedElements = document.querySelectorAll('[data-animation]');
-    animatedElements.forEach(el => {
-        animationObserver.observe(el);
+    animatedElements.forEach(element => {
+        animationObserver.observe(element);
     });
 });
